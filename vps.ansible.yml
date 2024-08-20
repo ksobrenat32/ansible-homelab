@@ -1,0 +1,38 @@
+# VPS setup playbook
+# - Essential configuration
+# - Wireguard VPN
+# - Web server
+# - Uptime-kuma podman
+# - Restic backup
+# Required VM:
+# - 1 core, 1GB RAM, 32GB disk
+# - 1 network interface with public IP
+---
+- name: Setup network VM
+  hosts: vps
+  become: true
+
+  tasks:
+    - name: Setup debian essential configuration
+      ansible.builtin.import_tasks:
+        file: tasks/debian-essential.ansible.yml
+
+    - name: Setup wireguard VPN
+      ansible.builtin.import_tasks:
+        file: tasks/wireguard.ansible.yml
+
+    - name: Setup firewall with nat
+      ansible.builtin.import_tasks:
+        file: tasks/nftables.ansible.yml
+
+    - name: Setup web server
+      ansible.builtin.import_tasks:
+        file: tasks/caddy.ansible.yml
+
+    - name: Setup uptime-kuma container
+      ansible.builtin.import_tasks:
+        file: tasks/podman-kuma.ansible.yml
+
+    - name: Setup restic backup
+      ansible.builtin.import_tasks:
+        file: tasks/restic.ansible.yml

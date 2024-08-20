@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ ! -d /mnt/data/restic-backup ]] ; then
+    echo 'Directory /mnt/data/restic-backup does not exist, exiting...'
+    exit
+fi
+
+/usr/local/bin/rest-server --path /mnt/data/restic-backup --append-only --private-repos

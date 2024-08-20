@@ -1,0 +1,39 @@
+# The Caddyfile is an easy way to configure your Caddy web server.
+#
+# https://caddyserver.com/docs/caddyfile
+
+# Nextcloud
+cloud.ks32.dev {
+	header {
+		Strict-Transport-Security max-age=31536000;
+	}
+
+	rewrite /.well-known/carddav /remote.php/dav
+	rewrite /.well-known/caldav /remote.php/dav
+
+	reverse_proxy 10.0.1.100:32099
+}
+
+# Wordpress for complejo.club
+complejo.club {
+	reverse_proxy 10.0.1.100:32000
+    tls /etc/ssl/certs/complejo.club.cert.pem /etc/ssl/certs/complejo.club.key.pem
+}
+
+# stirling-pdf
+pdf.ks32.dev {
+	reverse_proxy 10.0.1.100:32001
+}
+
+# Jellyfin
+media.ks32.dev {
+	reverse_proxy 10.0.1.100:32004
+}
+qcal.strangled.net {
+	reverse_proxy 10.0.1.100:32004
+}
+
+# Overleaf
+overleaf.ks32.dev {
+	reverse_proxy 10.0.1.100:32005
+}

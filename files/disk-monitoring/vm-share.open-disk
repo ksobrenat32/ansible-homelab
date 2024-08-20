@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Luks open disk
+cryptsetup open --allow-discards /dev/disk/by-id/ata-Samsung_SSD_870_EVO_4TB_S757NS0W903443V-part1 870_evo_crypt
+
+# Create mount points
+mkdir -p /mnt/disk
+
+# Mount directories
+mount -o ssd,noatime,nodiratime,nodev,nosuid,noexec /dev/mapper/870_evo_crypt /mnt/disk
+
+# Start services
+systemctl restart nfs-server.service

@@ -1,0 +1,12 @@
+[Unit]
+Description=Server booting notification
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/boot-notify
+EnvironmentFile=/etc/telegram-bot.conf
+
+[Install]
+WantedBy=multi-user.target

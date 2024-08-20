@@ -1,0 +1,83 @@
+# Share VM setup playbook
+# - Essential configuration
+# - Boot notification
+# - Disk monitoring
+# - NFS server
+# Required VM:
+# - 1 core, 2GB RAM, 8GB disk
+# - 1 network interface 10.0.1.250/24
+# - PCI passthrough: 1 disk
+# Notes:
+# - You need to make sure that all cloud kernels are removed
+---
+- name: Setup share VM
+  hosts: vm-share
+  become: true
+
+  tasks:
+    - name: Setup debian essential configuration
+      ansible.builtin.import_tasks:
+        file: tasks/debian-essential.ansible.yml
+
+    - name: Check if linux-image-cloud-amd64 is installed
+      ansible.builtin.shell:
+        cmd: dpkg -l | grep -q 'linux-image-cloud-amd64'
+      register: package_check
+      ignore_errors: true
+
+    - name: Exit playbook if package is installed
+      ansible.builtin.fail:
+        msg: "The package linux-image-cloud-amd64 is already installed, completely delete it and add linux-image-amd64 before running this playbook"
+      when: package_check.rc == 0
+
+    - name: Setup boot notification
+      ansible.builtin.import_tasks:
+        file: tasks/boot-notify.ansible.yml
+
+    - name: Setup nfs server
+      ansible.builtin.import_tasks:
+        file: tasks/nfs.ansible.yml
+
+    - name: Setup disk monitoring
+      ansible.builtin.import_tasks:
+        file: tasks/disk-monitoring.ansible.yml
+
+    - name: Setup file deduplication
+      ansible.builtin.import_tasks:
+        file: tasks/deduplication.ansible.yml
+
+    - name: Setup restic backup
+      ansible.builtin.import_tasks:
+        file: tasks/restic.ansible.yml
+
+    # Nextcloud setup
+    - name: Copy restic configuration
+      ansible.builtin.copy:
+        src: files/restic/nextcloud.conf
+        dest: /etc/restic-backup-nextcloud.conf
+        owner: root
+        group: root
+        mode: '0600'
+        decrypt: true
+
+    - name: Copy restic systemd service
+      ansible.builtin.copy:
+        src: files/restic/backup-nextcloud.service
+        dest: /etc/systemd/system/backup-nextcloud.service
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Copy restic systemd timer
+      ansible.builtin.copy:
+        src: files/restic/backup-nextcloud.timer
+        dest: /etc/systemd/system/backup-nextcloud.timer
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Enable and restart restic systemd timer
+      ansible.builtin.systemd:
+        name: backup-nextcloud.timer
+        enabled: true
+        state: restarted

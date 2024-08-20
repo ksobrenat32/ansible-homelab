@@ -1,0 +1,36 @@
+# Description: Notify of system boot through Telegram
+---
+- name: Ensure curl is installed
+  ansible.builtin.apt:
+    name: curl
+    state: present
+
+- name: Setup telegram bot configuration
+  ansible.builtin.template:
+    src: files/notify/telegram.conf.j2
+    dest: /etc/telegram-bot.conf
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Script to notify of system boot
+  ansible.builtin.template:
+    src: files/notify/boot-notify.j2
+    dest: /usr/local/bin/boot-notify
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Setup systemd service for boot notification
+  ansible.builtin.copy:
+    src: files/notify/boot-notify.service
+    dest: /etc/systemd/system/boot-notify.service
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Enable and start boot-notify service
+  ansible.builtin.systemd:
+    name: boot-notify
+    enabled: true
+    state: started

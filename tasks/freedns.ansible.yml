@@ -1,0 +1,32 @@
+# Description: Setup for FreeDNS dynamic DNS update
+---
+- name: Copy FreeDNS update script
+  ansible.builtin.copy:
+    src: files/freedns/{{ inventory_hostname }}.freedns
+    dest: /usr/local/bin/freedns
+    owner: root
+    group: root
+    mode: "0700"
+
+- name: Copy FreeDNS systemd service
+  ansible.builtin.copy:
+    src: files/freedns/freedns.service
+    dest: /etc/systemd/system/freedns.service
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Copy FreeDNS systemd timer
+  ansible.builtin.copy:
+    src: files/freedns/freedns.timer
+    dest: /etc/systemd/system/freedns.timer
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Enable FreeDNS systemd timer
+  ansible.builtin.systemd:
+    name: freedns.timer
+    enabled: true
+    state: started
+    daemon_reload: true

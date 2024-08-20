@@ -1,0 +1,53 @@
+# Description: Configure NAT on the server
+---
+- name: Allow ipv4 forwarding
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    sysctl_set: true
+    state: present
+    reload: true
+
+- name: Install nftables
+  ansible.builtin.apt:
+    name: nftables
+    state: present
+
+- name: Copy nftables configuration
+  ansible.builtin.copy:
+    src: files/nftables/{{ inventory_hostname }}.conf
+    dest: /etc/nftables.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Systemd override directory
+  ansible.builtin.file:
+    owner: root
+    group: root
+    mode: "0755"
+    path: /etc/systemd/system/nftables.service.d/
+    state: directory
+
+- name: Override to make nftables reboot on failure
+  community.general.ini_file:
+    mode: "0644"
+    dest: /etc/systemd/system/nftables.service.d/override.conf
+    section: Service
+    option: Restart
+    value: on-failure
+
+- name: Override to make nftables reboot on failure
+  community.general.ini_file:
+    mode: "0644"
+    dest: /etc/systemd/system/nftables.service.d/override.conf
+    section: Service
+    option: RestartSec
+    value: 5s
+
+- name: Enable nftables service
+  ansible.builtin.systemd:
+    name: nftables
+    enabled: true
+    daemon_reload: true
+    state: restarted

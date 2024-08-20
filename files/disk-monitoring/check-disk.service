@@ -1,0 +1,10 @@
+[Unit]
+Description=Script to check ssd health
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/check-disk
+EnvironmentFile=/etc/telegram-bot.conf
+
+[Install]
+WantedBy=multi-user.target

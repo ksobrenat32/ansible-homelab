@@ -1,0 +1,13 @@
+# The Caddyfile is an easy way to configure your Caddy web server.
+#
+# https://caddyserver.com/docs/caddyfile
+
+ks32.dev {
+    root * /var/www/ks32.dev
+    encode gzip
+    file_server browse
+}
+
+up.ks32.dev {
+	reverse_proxy 127.0.0.1:3001
+}

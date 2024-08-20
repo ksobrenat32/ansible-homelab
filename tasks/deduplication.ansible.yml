@@ -1,0 +1,28 @@
+# Description: Configure deduplication
+---
+- name: Install required packages
+  ansible.builtin.apt:
+    name: duperemove
+    state: present
+
+- name: Setup systemd service for file deduplication
+  ansible.builtin.copy:
+    src: files/deduplication/{{ inventory_hostname }}.dedup.service
+    dest: /etc/systemd/system/dedup.service
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Setup systemd timer for file deduplication
+  ansible.builtin.copy:
+    src: files/deduplication/dedup.timer
+    dest: /etc/systemd/system/dedup.timer
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Enable and start deduplication timer
+  ansible.builtin.systemd:
+    name: dedup.timer
+    enabled: true
+    state: started

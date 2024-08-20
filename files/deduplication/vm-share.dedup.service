@@ -1,0 +1,9 @@
+[Unit]
+Description=Remove duplicated files from btrfs shared filesystem
+
+[Service]
+Type=simple
+ExecStart=duperemove -r -d --hashfile=/root/shared.hash /mnt/disk/shared
+
+[Install]
+WantedBy=multi-user.target

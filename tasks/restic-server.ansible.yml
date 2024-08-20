@@ -1,0 +1,56 @@
+# Description: Install restic server and configure it to run as a service
+---
+- name: Download rest-server binary
+  ansible.builtin.get_url:
+    url: https://github.com/restic/rest-server/releases/download/v0.12.1/rest-server_0.12.1_linux_arm64.tar.gz
+    dest: /tmp/rest-server.tar.gz
+    mode: '0644'
+
+- name: Create rest-server directory
+  ansible.builtin.file:
+    path: /tmp/rest-server
+    state: directory
+    mode: '0755'
+
+- name: Extract rest-server binary
+  ansible.builtin.unarchive:
+    src: /tmp/rest-server.tar.gz
+    dest: /tmp/rest-server
+    remote_src: true
+    creates: /tmp/rest-server/rest-server
+
+- name: Move rest-server binary
+  ansible.builtin.shell:
+    cmd: mv /tmp/rest-server/rest-server_0.12.1_linux_arm64/rest-server /usr/local/bin/rest-server && chmod +x /usr/local/bin/rest-server
+    creates: /usr/local/bin/rest-server
+
+- name: Delete rest-server files
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /tmp/rest-server
+    - /tmp/rest-server.tar.gz
+
+- name: Copy rest-server script
+  ansible.builtin.copy:
+    src: files/rest-server/{{ inventory_hostname }}.script-rest-server
+    dest: /usr/local/bin/script-rest-server
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Copy rest-server systemd service
+  ansible.builtin.copy:
+    src: files/rest-server/rest-server.service
+    dest: /etc/systemd/system/rest-server.service
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Enable and start rest-server service
+  ansible.builtin.systemd:
+    name: rest-server.service
+    enabled: true
+    state: started
+    daemon_reload: true

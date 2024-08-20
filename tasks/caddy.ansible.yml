@@ -1,0 +1,55 @@
+# Description: Install and configure Caddy web server
+---
+- name: Install necessary packages
+  ansible.builtin.apt:
+    name:
+      - debian-keyring
+      - debian-archive-keyring
+      - apt-transport-https
+      - curl
+      - gpg
+    state: present
+    update_cache: true
+
+- name: Download Caddy GPG key
+  ansible.builtin.get_url:
+    url: https://dl.cloudsmith.io/public/caddy/stable/gpg.key
+    dest: /tmp/caddy-gpg.key
+    mode: '0644'
+
+- name: Convert GPG key to binary format
+  ansible.builtin.command: |
+    gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg /tmp/caddy-gpg.key
+  args:
+    creates: /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+
+- name: Download and save Caddy repository list
+  ansible.builtin.get_url:
+    url: https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt
+    dest: /etc/apt/sources.list.d/caddy-stable.list
+    mode: '0644'
+
+- name: Remove the temporary GPG key file
+  ansible.builtin.file:
+    path: /tmp/caddy-gpg.key
+    state: absent
+
+- name: Install Caddy
+  ansible.builtin.apt:
+    name: caddy
+    state: present
+    update_cache: true
+
+- name: Copy Caddy configuration
+  ansible.builtin.copy:
+    src: files/caddy/{{ inventory_hostname }}.caddyfile
+    dest: /etc/caddy/Caddyfile
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Restart and enable Caddy
+  ansible.builtin.systemd:
+    name: caddy
+    state: restarted
+    enabled: true

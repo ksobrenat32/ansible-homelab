@@ -1,0 +1,44 @@
+# Description: Configure disk monitoring
+---
+- name: Install required packages
+  ansible.builtin.apt:
+    name: cryptsetup, smartmontools, btrfs-progs, udisks2
+    state: present
+
+- name: Copy disk monitoring Script
+  ansible.builtin.copy:
+    src: files/disk-monitoring/{{ inventory_hostname }}.check-disk
+    dest: /usr/local/bin/check-disk
+    owner: root
+    group: root
+    mode: '0700'
+
+- name: Setup systemd service for disk monitoring
+  ansible.builtin.copy:
+    src: files/disk-monitoring/check-disk.service
+    dest: /etc/systemd/system/check-disk.service
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Setup systemd timer for disk monitoring
+  ansible.builtin.copy:
+    src: files/disk-monitoring/check-disk.timer
+    dest: /etc/systemd/system/check-disk.timer
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Enable and start check-disk timer
+  ansible.builtin.systemd:
+    name: check-disk.timer
+    enabled: true
+    state: started
+
+- name: Copy disk decryption script
+  ansible.builtin.copy:
+    src: files/disk-monitoring/{{ inventory_hostname }}.open-disk
+    dest: /usr/local/bin/open-disk
+    owner: root
+    group: root
+    mode: '0700'

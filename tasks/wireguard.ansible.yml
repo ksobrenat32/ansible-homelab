@@ -1,0 +1,22 @@
+# Description: Setup wireguard VPN on the server
+---
+- name: Install necessary packages
+  ansible.builtin.apt:
+    name:
+      - wireguard
+      - wireguard-tools
+    state: present
+    update_cache: true
+
+- name: Copy wireguard configuration
+  ansible.builtin.copy:
+    src: files/wireguard/wg-{{ inventory_hostname }}.conf
+    dest: /etc/wireguard/wg0.conf
+    mode: '0600'
+    decrypt: true
+
+- name: Enable and start wireguard service
+  ansible.builtin.systemd:
+    name: wg-quick@wg0
+    enabled: true
+    state: restarted

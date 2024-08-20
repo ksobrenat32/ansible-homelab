@@ -1,0 +1,10 @@
+[Unit]
+Description=Timer for podman-ghorg script to clone repositories
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+

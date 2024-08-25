@@ -14,3 +14,4 @@ packages:
   - nfs-common
   - iperf3
   - vim
+  - rsync

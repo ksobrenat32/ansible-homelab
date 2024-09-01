@@ -37,3 +37,11 @@ qcal.strangled.net {
 overleaf.ks32.dev {
 	reverse_proxy 10.0.1.100:32005
 }
+
+# Scholarships-db
+becas.ks32.dev {
+	reverse_proxy 10.0.1.100:32100
+	basic_auth {
+		becas $2a$14$EQ4vjRHVFoQAkNW/nuQjMOXwwKsme4Yl0UGlQHne5.DKFTXjtByCi
+	}
+}

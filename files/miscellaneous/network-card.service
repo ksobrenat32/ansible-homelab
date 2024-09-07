@@ -1,0 +1,14 @@
+[Unit]
+Description=Network card monitoring service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=5
+User=root
+ExecStart=/usr/local/bin/network-card.sh
+
+[Install]
+WantedBy=multi-user.target

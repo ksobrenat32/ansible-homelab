@@ -7,44 +7,20 @@
 
   tasks:
     - name: Setup network card script
-      ansible.builtin.lineinfile:
+      ansible.builtin.copy:
+        src: files/scripts/network-card.sh
         dest: /usr/local/bin/network-card.sh
-        line: |
-          #!/bin/bash
-          while true; do
-            if ! ping -c 1 gnu.org &> /dev/null; then
-                  echo “$(date): NIC eno1 caida. Restableciendo”
-                  ifdown eno1 && ifup eno1
-            fi
-            sleep 60
-          done
         mode: '0755'
         owner: root
         group: root
-        create: true
 
     - name: Setup systemd service
-      ansible.builtin.lineinfile:
+      ansible.builtin.copy:
+        src: files/miscellaneous/network-card.service
         dest: /etc/systemd/system/network-card.service
-        line: |
-          [Unit]
-          Description=Network card monitoring service
-          After=network.target
-          StartLimitIntervalSec=0
-
-          [Service]
-          Type=simple
-          Restart=always
-          RestartSec=5
-          User=root
-          ExecStart=/usr/local/bin/network-card.sh
-
-          [Install]
-          WantedBy=multi-user.target
         mode: '0644'
         owner: root
         group: root
-        create: true
 
     - name: Enable and start the service
       ansible.builtin.systemd:

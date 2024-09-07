@@ -32,10 +32,6 @@
       ansible.builtin.import_tasks:
         file: tasks/nftables.ansible.yml
 
-    - name: Setup NFS server
-      ansible.builtin.import_tasks:
-        file: tasks/nfs.ansible.yml
-
     - name: Setup disk monitoring
       ansible.builtin.import_tasks:
         file: tasks/disk-monitoring.ansible.yml

@@ -12,8 +12,6 @@ mount -o noatime,nodiratime,noexec,nodev,nosuid,subvol=@data /dev/mapper/disk /m
 mount -o noatime,nodiratime,noexec,nodev,nosuid,subvol=@snapshots /dev/mapper/disk /mnt/snapshots
 
 # Services
-systemctl restart nfs-kernel-server.service
-systemctl restart rclone.timer
 systemctl restart ghorg.timer
 systemctl restart backup.timer
 systemctl restart rest-server.service

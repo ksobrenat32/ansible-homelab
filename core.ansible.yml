@@ -1,11 +1,17 @@
-# Description: Proxmox configuration
-# Setup network card service
+# Base uCore HCI Ansible Playbook
 ---
-- name: Proxmox configuration
-  hosts: proxmox
+- name: The uCore basic configuration HCI Ansible Playbook
+  hosts: ucorepro
   become: true
-
   tasks:
+    - name: Configure hostname
+      ansible.builtin.hostname:
+        name: "{{ inventory_hostname }}"
+
+    - name: Configure timezone
+      community.general.timezone:
+        name: "{{ timezone }}"
+
     - name: Setup network card script
       ansible.builtin.copy:
         src: files/scripts/network-card.sh

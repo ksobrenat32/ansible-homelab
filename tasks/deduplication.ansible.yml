@@ -1,10 +1,5 @@
 # Description: Configure deduplication
 ---
-- name: Install required packages
-  ansible.builtin.apt:
-    name: duperemove
-    state: present
-
 - name: Setup systemd service for file deduplication
   ansible.builtin.copy:
     src: files/deduplication/{{ inventory_hostname }}.dedup.service

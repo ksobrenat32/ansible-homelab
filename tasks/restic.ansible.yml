@@ -1,24 +1,26 @@
 # Description: Install and configure Restic backup tool
 ---
-- name: Install necessary packages
-  ansible.builtin.apt:
-    name:
-      - restic
-    state: present
+- name: Create directory for restic
+  ansible.builtin.file:
+    path: "{{ restic_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
 
 - name: Copy restic configuration
   ansible.builtin.copy:
-    src: files/restic/{{ inventory_hostname }}.conf
-    dest: /etc/restic-backup.conf
+    src: "files/restic/{{ restic_config }}.env"
+    dest: "{{ restic_dir }}/{{ restic_config }}.env"
     owner: root
     group: root
     mode: '0600'
     decrypt: true
 
 - name: Copy restic systemd service
-  ansible.builtin.copy:
-    src: files/restic/backup.service
-    dest: /etc/systemd/system/backup.service
+  ansible.builtin.template:
+    src: files/restic/backup.service.j2
+    dest: "/etc/systemd/system/backup-{{ restic_config }}.service"
     owner: root
     group: root
     mode: '0644'
@@ -26,13 +28,13 @@
 - name: Copy restic systemd timer
   ansible.builtin.copy:
     src: files/restic/backup.timer
-    dest: /etc/systemd/system/backup.timer
+    dest: "/etc/systemd/system/backup-{{ restic_config }}.timer"
     owner: root
     group: root
     mode: '0644'
 
 - name: Enable and restart restic systemd timer
   ansible.builtin.systemd:
-    name: backup.timer
+    name: "backup-{{ restic_config }}.timer"
     enabled: true
     state: restarted

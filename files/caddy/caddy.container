@@ -1,0 +1,19 @@
+[Unit]
+Description=Caddy container
+After=network-online.target
+Wants=network-online.target
+
+[Container]
+ContainerName=caddy
+Image=docker.io/caddy:2
+Network=host
+AutoUpdate=registry
+Volume=/var/mnt/disk/shared/containers/caddy/conf:/etc/caddy:Z
+Volume=/var/mnt/disk/shared/containers/caddy/data:/data:Z
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

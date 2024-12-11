@@ -1,8 +1,0 @@
-[Unit]
-Description=Backup with restic
-
-[Service]
-Type=oneshot
-ExecStartPre=mkdir -p /tmp/restic-cache/
-ExecStart=restic backup --verbose --cache-dir /tmp/restic-cache/ $BACKUP_EXCLUDES $BACKUP_PATHS
-EnvironmentFile=/etc/restic-backup-nextcloud.conf

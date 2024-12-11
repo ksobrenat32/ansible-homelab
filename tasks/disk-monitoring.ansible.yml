@@ -1,10 +1,5 @@
 # Description: Configure disk monitoring
 ---
-- name: Install required packages
-  ansible.builtin.apt:
-    name: cryptsetup, smartmontools, btrfs-progs, udisks2
-    state: present
-
 - name: Copy disk monitoring Script
   ansible.builtin.copy:
     src: files/disk-monitoring/{{ inventory_hostname }}.check-disk

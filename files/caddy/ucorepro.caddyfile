@@ -14,12 +14,6 @@ cloud.ks32.dev {
 	reverse_proxy 10.0.1.100:32099
 }
 
-# Wordpress for complejo.club
-complejo.club {
-	reverse_proxy 10.0.1.100:32000
-    tls /etc/ssl/certs/complejo.club.cert.pem /etc/ssl/certs/complejo.club.key.pem
-}
-
 # stirling-pdf
 pdf.ks32.dev {
 	reverse_proxy 10.0.1.100:32001

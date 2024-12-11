@@ -13,9 +13,6 @@ curl -X POST \
     -d "{\"chat_id\": ${CHAT_ID}, \"text\": \"${RESPONSE}\"}" \
     https://api.telegram.org/bot${BOT_TOKEN}/sendMessage
 
-# Start 320 minutes long smart test on ssd
-smartctl -t long /dev/disk/by-id/ata-Samsung_SSD_870_EVO_4TB_S757NS0W903443V
-
 # Start btrfs scrub
 btrfs scrub start /mnt/disk/
 
@@ -25,20 +22,12 @@ sleep 6h
 # Generate response
 
 RESPONSE="File server: results from disk checking"
-SMART="Smart data:\n$(/usr/sbin/smartctl -a /dev/disk/by-id/ata-Samsung_SSD_870_EVO_4TB_S757NS0W903443V | grep -A1 "=== START OF READ SMART DATA SECTION ===")"
-SMART="${SMART}\n$(/usr/sbin/smartctl -a /dev/disk/by-id/ata-Samsung_SSD_870_EVO_4TB_S757NS0W903443V | grep -A17 "SMART Attributes Data Structure revision number:")"
-SMART="${SMART}\n$(/usr/sbin/smartctl -a /dev/disk/by-id/ata-Samsung_SSD_870_EVO_4TB_S757NS0W903443V | grep -A3 "SMART Self-test log structure")"
 BTRFS="Btrfs data:\n$(/usr/bin/btrfs scrub status /mnt/disk)"
 
 # Send results
 curl -X POST \
     -H 'Content-Type: application/json' \
     -d "{\"chat_id\": ${CHAT_ID}, \"text\": \"${RESPONSE}\"}" \
-    https://api.telegram.org/bot${BOT_TOKEN}/sendMessage
-
-curl -X POST \
-    -H 'Content-Type: application/json' \
-    -d "{\"chat_id\": ${CHAT_ID}, \"text\": \"${SMART}\"}" \
     https://api.telegram.org/bot${BOT_TOKEN}/sendMessage
 
 curl -X POST \

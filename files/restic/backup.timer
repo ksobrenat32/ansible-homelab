@@ -1,8 +1,8 @@
 [Unit]
-Description=Make a backup with restic every week
+Description=Make a backup with restic daily
 
 [Timer]
-OnCalendar=weekly
+OnCalendar=daily
 Persistent=true
 
 [Install]

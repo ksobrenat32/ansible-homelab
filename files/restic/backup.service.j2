@@ -1,0 +1,15 @@
+[Unit]
+Description=Backup with restic
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/podman run --rm \
+    --hostname {{ inventory_hostname }} \
+    --security-opt label=disable \
+    --env-file {{ restic_dir }}/{{ restic_config }}.env \
+    -v /:/host:ro \
+    docker.io/restic/restic:latest \
+    backup --verbose {{ restic_backup_path }} {% if restic_exclude_path %} --exclude {{ restic_exclude_path }} {% endif %}
+
+[Install]
+WantedBy=multi-user.target

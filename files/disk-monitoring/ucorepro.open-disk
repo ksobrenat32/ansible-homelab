@@ -3,7 +3,7 @@
 set -e
 
 # Luks open disk
-cryptsetup open --allow-discards /dev/disk/by-id/ata-Samsung_SSD_870_EVO_4TB_S757NS0W903443V-part1 870_evo_crypt
+cryptsetup open --allow-discards /dev/disk/by-uuid/81581666-c552-4bbd-85a5-fb00b75adb68 870_evo_crypt
 
 # Create mount points
 mkdir -p /mnt/disk

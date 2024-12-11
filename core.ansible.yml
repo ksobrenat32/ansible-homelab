@@ -3,6 +3,7 @@
 - name: The uCore basic configuration HCI Ansible Playbook
   hosts: ucorepro
   become: true
+
   tasks:
     - name: Configure hostname
       ansible.builtin.hostname:
@@ -11,6 +12,19 @@
     - name: Configure timezone
       community.general.timezone:
         name: "{{ timezone }}"
+
+    - name: Copy sshd_config
+      ansible.builtin.copy:
+        src: files/ssh/sshd_config
+        dest: /etc/ssh/sshd_config
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Restart sshd
+      ansible.builtin.systemd:
+        name: sshd
+        state: restarted
 
     - name: Setup network card script
       ansible.builtin.copy:
@@ -34,3 +48,48 @@
         enabled: true
         daemon_reload: true
         state: restarted
+
+    - name: Setup boot notification script
+      ansible.builtin.import_tasks:
+        file: tasks/boot-notify.ansible.yml
+
+    - name: Setup disk monitoring script
+      ansible.builtin.import_tasks:
+        file: tasks/disk-monitoring.ansible.yml
+
+    - name: Setup file deduplication script
+      ansible.builtin.import_tasks:
+        file: tasks/deduplication.ansible.yml
+
+    - name: Setup podman auto-update
+      ansible.builtin.systemd:
+        name: podman-auto-update
+
+    - name: Setup caddy quadlet
+      ansible.builtin.import_tasks:
+        file: tasks/caddy.ansible.yml
+
+    - name: Setup restic nextcloud backup
+      ansible.builtin.import_tasks:
+        file: tasks/restic.ansible.yml
+      vars:
+        restic_dir: /var/mnt/disk/shared/containers
+        restic_config: nextcloud
+        restic_backup_path: "/host/mnt/disk/shared/containers/nextcloud"
+        restic_exclude_path:
+
+    - name: Setup restic for containers
+      ansible.builtin.import_tasks:
+        file: tasks/restic.ansible.yml
+      vars:
+        restic_dir: /var/mnt/disk/shared/containers
+        restic_config: "{{ inventory_hostname }}"
+        restic_backup_path: "/host/mnt/disk/shared/containers"
+        restic_exclude_path: "/host/mnt/disk/shared/containers/nextcloud"
+
+    - name: Setup wireguard VPN
+      ansible.builtin.import_tasks:
+        file: tasks/wireguard.ansible.yml
+      vars:
+        wg_conf_name: ucorepro
+        wg_conf_port: 55820

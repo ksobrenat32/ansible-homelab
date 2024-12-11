@@ -1,0 +1,20 @@
+[Unit]
+Description=Blocky container
+After=network-online.target
+Wants=network-online.target
+
+[Container]
+ContainerName=blocky
+Image=docker.io/spx01/blocky
+PublishPort=53:53/udp
+PublishPort=53:53/tcp
+AutoUpdate=registry
+Volume={{ blocky_config_dir }}/config.yml:/app/config.yml:z,ro
+Environment=TZ=America/Mexico_City
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

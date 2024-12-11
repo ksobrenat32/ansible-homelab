@@ -65,6 +65,12 @@
       ansible.builtin.systemd:
         name: podman-auto-update
 
+    - name: Setup blocky quadlet
+      ansible.builtin.import_tasks:
+        file: tasks/blocky.ansible.yml
+      vars:
+        blocky_config_dir: /var/mnt/disk/shared/containers/blocky
+
     - name: Setup caddy quadlet
       ansible.builtin.import_tasks:
         file: tasks/caddy.ansible.yml

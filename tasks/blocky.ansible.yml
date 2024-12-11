@@ -1,0 +1,47 @@
+# Description: Install and configure a DNS server using Blocky
+# vars:
+#   blocky_config_dir: /path/to/directory
+---
+- name: Disable systemd-resolved service
+  ansible.builtin.systemd:
+    name: systemd-resolved
+    state: stopped
+    enabled: false
+
+- name: Copy Blocky container quadlet
+  ansible.builtin.template:
+    src: files/blocky/blocky.container.j2
+    dest: /etc/containers/systemd/blocky.container
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Create volume directories
+  ansible.builtin.file:
+    path: "{{ blocky_config_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Copy Blocky configuration
+  ansible.builtin.copy:
+    src: files/blocky/config.yml
+    dest: "{{ blocky_config_dir }}/config.yml"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Allow DNS port
+  ansible.posix.firewalld:
+    service: dns
+    permanent: true
+    state: enabled
+    immediate: true
+
+- name: Restart and enable Blocky container service
+  ansible.builtin.systemd:
+    name: blocky
+    state: restarted
+    enabled: true
+    daemon_reload: true

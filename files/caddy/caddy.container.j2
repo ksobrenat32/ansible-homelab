@@ -8,8 +8,8 @@ ContainerName=caddy
 Image=docker.io/caddy:2
 Network=host
 AutoUpdate=registry
-Volume=/var/mnt/disk/shared/containers/caddy/conf:/etc/caddy:Z
-Volume=/var/mnt/disk/shared/containers/caddy/data:/data:Z
+Volume={{ caddy_config_dir }}/conf:/etc/caddy:z
+Volume={{ caddy_config_dir }}/data:/data:z
 
 [Service]
 Restart=always

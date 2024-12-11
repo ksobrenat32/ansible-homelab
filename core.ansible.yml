@@ -74,6 +74,9 @@
     - name: Setup caddy quadlet
       ansible.builtin.import_tasks:
         file: tasks/caddy.ansible.yml
+      vars:
+        caddy_config_dir: /var/mnt/disk/shared/containers/caddy
+        caddyfile_name: ucorepro
 
     - name: Setup restic nextcloud backup
       ansible.builtin.import_tasks:

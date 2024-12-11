@@ -1,8 +1,8 @@
 # Description: Configure caddy web server container
 ---
 - name: Copy Caddy container quadlet
-  ansible.builtin.copy:
-    src: files/caddy/caddy.container
+  ansible.builtin.template:
+    src: files/caddy/caddy.container.j2
     dest: /etc/containers/systemd/caddy.container
     owner: root
     group: root
@@ -16,13 +16,13 @@
     group: root
     mode: '0755'
   loop:
-    - /var/mnt/disk/shared/containers/caddy/conf
-    - /var/mnt/disk/shared/containers/caddy/data
+    - "{{ caddy_config_dir }}/conf"
+    - "{{ caddy_config_dir }}/data"
 
 - name: Copy Caddy configuration
   ansible.builtin.copy:
-    src: files/caddy/{{ inventory_hostname }}.caddyfile
-    dest: /var/mnt/disk/shared/containers/caddy/conf/Caddyfile
+    src: files/caddy/{{ caddyfile_name }}.caddyfile
+    dest: "{{ caddy_config_dir }}/conf/Caddyfile"
     owner: root
     group: root
     mode: '0644'

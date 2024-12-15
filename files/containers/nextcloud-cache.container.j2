@@ -1,0 +1,12 @@
+[Unit]
+Description=Nextcloud cache container
+
+[Container]
+ContainerName=nextcloud-redis
+Image=docker.io/library/redis:7
+Pod=nextcloud.pod
+AutoUpdate=registry
+Volume={{ nextcloud_data_dir }}/redis:/data:z
+
+[Install]
+WantedBy=default.target

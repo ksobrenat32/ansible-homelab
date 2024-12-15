@@ -1,0 +1,59 @@
+# Description: Ansible playbook to setup home containers for ucorepro
+---
+- name: Home Containers Setup for ucorepro
+  hosts: ucorepro
+
+  vars:
+    nextcloud_data_dir: /mnt/disk/shared/containers/nextcloud
+    jellyfin_data_dir: /mnt/disk/shared/containers/jellyfin
+    media_dir: /mnt/disk/shared/media
+
+  tasks:
+    - name: Create the home containers directory
+      ansible.builtin.file:
+        path: /home/core/.config/containers/systemd/
+        state: directory
+        owner: core
+        group: core
+        mode: "0755"
+
+    - name: Copy all the quadlet files
+      ansible.builtin.template:
+        src: "files/containers/{{ item }}.j2"
+        dest: "/home/core/.config/containers/systemd/{{ item }}"
+        owner: core
+        group: core
+        mode: "0644"
+      with_items:
+        - "nextcloud.pod"
+        - "nextcloud-db.container"
+        - "nextcloud-cache.container"
+        - "nextcloud-app.container"
+        - "jellyfin.container"
+
+    - name: Create the systemd user directory
+      ansible.builtin.file:
+        path: /home/core/.config/systemd/user/
+        state: directory
+        owner: core
+        group: core
+        mode: "0755"
+
+    - name: Copy the systemd service files for timers
+      ansible.builtin.template:
+        src: "files/containers/{{ item }}.j2"
+        dest: "/home/core/.config/systemd/user/{{ item }}"
+        owner: core
+        group: core
+        mode: "0644"
+      with_items:
+        - "nextcloud-timer.service"
+        - "nextcloud-timer.timer"
+
+    - name: Start timers
+      ansible.builtin.systemd:
+        name: "{{ item }}"
+        state: started
+        enabled: true
+      with_items:
+        - "nextcloud-timer.timer"

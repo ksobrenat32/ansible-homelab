@@ -1,0 +1,12 @@
+[Unit]
+Description=Nextcloud database container
+
+[Container]
+ContainerName=nextcloud-mariadb
+Image=docker.io/library/mariadb:10.11
+Pod=nextcloud.pod
+AutoUpdate=registry
+Volume={{ nextcloud_data_dir }}/mariadb:/var/lib/mysql:z
+
+[Install]
+WantedBy=default.target

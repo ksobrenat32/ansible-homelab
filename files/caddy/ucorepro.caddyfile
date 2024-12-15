@@ -11,7 +11,7 @@ cloud.ks32.dev {
 	rewrite /.well-known/carddav /remote.php/dav
 	rewrite /.well-known/caldav /remote.php/dav
 
-	reverse_proxy 10.0.1.100:32099
+	reverse_proxy 127.0.0.1:32099
 }
 
 # stirling-pdf
@@ -21,10 +21,10 @@ pdf.ks32.dev {
 
 # Jellyfin
 media.ks32.dev {
-	reverse_proxy 10.0.1.100:32004
+	reverse_proxy 127.0.0.1:8096
 }
 qcal.strangled.net {
-	reverse_proxy 10.0.1.100:32004
+	reverse_proxy 127.0.0.1:8096
 }
 
 # Overleaf

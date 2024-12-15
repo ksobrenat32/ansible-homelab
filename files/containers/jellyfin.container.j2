@@ -1,0 +1,19 @@
+[Unit]
+Description=Jellyfin application container
+
+[Container]
+ContainerName=jellyfin
+Image=docker.io/jellyfin/jellyfin:latest
+AutoUpdate=registry
+Environment=JELLYFIN_CONFIG_DIR="/opt/jellyfin/config"
+Environment=JELLYFIN_DATA_DIR="/opt/jellyfin"
+Environment=JELLYFIN_CACHE_DIR="/opt/jellyfin/cache"
+Environment=JELLYFIN_LOG_DIR="/opt/jellyfin/log"
+PublishPort=8096:8096
+User=4000
+Volume={{ jellyfin_data_dir }}/data:/opt/jellyfin:z
+Volume={{ media_dir }}:/mnt/media:z
+
+
+[Install]
+WantedBy=default.target

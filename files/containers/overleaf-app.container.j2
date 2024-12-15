@@ -1,0 +1,28 @@
+[Unit]
+Description=Overleaf app container
+
+[Container]
+ContainerName=overleaf
+Image=ghcr.io/ksobrenat32/overleaf-full:5.0
+Pod=overleaf.pod
+AutoUpdate=registry
+
+Environment=EMAIL_CONFIRMATION_DISABLED="true"
+Environment=ENABLED_LINKED_FILE_TYPES="project_file,project_output_file"
+Environment=ENABLE_CONVERSIONS="true"
+Environment=OVERLEAF_ADMIN_EMAIL="support@ks32.dev"
+Environment=OVERLEAF_APP_NAME="Overleaf CE"
+Environment=OVERLEAF_LISTEN_IP="0.0.0.0"
+Environment=OVERLEAF_PORT="80"
+Environment=OVERLEAF_SITE_URL="https://overleaf.ks32.dev"
+Environment=OVERLEAF_NAV_TITLE="Overleaf CE"
+Environment=OVERLEAF_MONGO_URL="mongodb://mongo/sharelatex"
+Environment=OVERLEAF_REDIS_HOST="redis"
+Environment=REDIS_HOST="redis"
+Environment=REDIS_PORT="6379"
+Environment=TEXMFVAR="/var/lib/overleaf/tmp/texmf-var"
+
+Volume={{ overleaf_data_dir }}/sharelatex:/var/lib/overleaf:z
+
+[Install]
+WantedBy=default.target

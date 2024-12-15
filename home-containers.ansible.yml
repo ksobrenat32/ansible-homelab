@@ -7,6 +7,8 @@
     nextcloud_data_dir: /mnt/disk/shared/containers/nextcloud
     jellyfin_data_dir: /mnt/disk/shared/containers/jellyfin
     media_dir: /mnt/disk/shared/media
+    overleaf_data_dir: /mnt/disk/shared/containers/overleaf
+    scholarships_data_dir: /mnt/disk/shared/containers/scholarships-db
 
   tasks:
     - name: Create the home containers directory
@@ -30,6 +32,12 @@
         - "nextcloud-cache.container"
         - "nextcloud-app.container"
         - "jellyfin.container"
+        - "overleaf.pod"
+        - "overleaf-db.container"
+        - "overleaf-cache.container"
+        - "overleaf-app.container"
+        - "stirling.container"
+        - "scholarships.container"
 
     - name: Create the systemd user directory
       ansible.builtin.file:
@@ -48,12 +56,4 @@
         mode: "0644"
       with_items:
         - "nextcloud-timer.service"
-        - "nextcloud-timer.timer"
-
-    - name: Start timers
-      ansible.builtin.systemd:
-        name: "{{ item }}"
-        state: started
-        enabled: true
-      with_items:
         - "nextcloud-timer.timer"

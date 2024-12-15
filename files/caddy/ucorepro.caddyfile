@@ -16,7 +16,7 @@ cloud.ks32.dev {
 
 # stirling-pdf
 pdf.ks32.dev {
-	reverse_proxy 10.0.1.100:32001
+	reverse_proxy 127.0.0.1:32001
 }
 
 # Jellyfin
@@ -29,12 +29,12 @@ qcal.strangled.net {
 
 # Overleaf
 overleaf.ks32.dev {
-	reverse_proxy 10.0.1.100:32005
+	reverse_proxy 127.0.0.1:32005
 }
 
 # Scholarships-db
 becas.ks32.dev {
-	reverse_proxy 10.0.1.100:32100
+	reverse_proxy 127.0.0.1:8000
 	basic_auth {
 		becas $2a$14$EQ4vjRHVFoQAkNW/nuQjMOXwwKsme4Yl0UGlQHne5.DKFTXjtByCi
 	}

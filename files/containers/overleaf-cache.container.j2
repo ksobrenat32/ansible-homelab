@@ -1,0 +1,12 @@
+[Unit]
+Description=Overleaf cache container
+
+[Container]
+ContainerName=redis
+Image=docker.io/library/redis:6.2
+Pod=overleaf.pod
+AutoUpdate=registry
+Volume={{ overleaf_data_dir }}/redis:/data:z
+
+[Install]
+WantedBy=default.target

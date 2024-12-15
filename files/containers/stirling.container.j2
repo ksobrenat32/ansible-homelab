@@ -1,0 +1,14 @@
+[Unit]
+Description=Stirling application container
+
+[Container]
+ContainerName=stirling
+Image=docker.io/frooodle/s-pdf:0.26.1
+AutoUpdate=registry
+Environment=DOCKER_ENABLE_SECURITY="false"
+Environment=INSTALL_BOOK_AND_ADVANCED_HTML_OPS="false"
+Environment=LANGS="en_GB"
+PublishPort=32001:8080
+
+[Install]
+WantedBy=default.target

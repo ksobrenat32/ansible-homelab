@@ -1,0 +1,17 @@
+[Unit]
+Description=Scolarships application container
+
+[Container]
+ContainerName=scholarships
+Image=ghcr.io/ksobrenat32/scholarships-db:latest
+AutoUpdate=registry
+Pull=always
+Environment=PROTOCOL="https"
+Environment=DOMAIN="becas.ks32.dev"
+Environment=PORT="443"
+PublishPort=8000:8000
+Volume={{ scholarships_data_dir }}/db:/code/db:z
+Volume={{ scholarships_data_dir }}/media:/code/media:z
+
+[Install]
+WantedBy=default.target

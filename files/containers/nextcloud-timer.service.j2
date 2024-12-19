@@ -3,8 +3,8 @@ Description=Nextcloud timer
 
 [Service]
 Type=oneshot
-ExecStart=podman run --rm --user 33 --pod nextcloud --name nextcloud-timer -v {{ nextcloud_data_dir }}/html:/var/www/html:z -v {{ nextcloud_data_dir }}/data:/opt/nextcloud:z docker.io/library/nextcloud:30.0.3 php --define apc.enable_cli=1 -f /var/www/html/occ preview:pre-generate
 ExecStart=podman run --rm --user 33 --pod nextcloud --name nextcloud-timer -v {{ nextcloud_data_dir }}/html:/var/www/html:z -v {{ nextcloud_data_dir }}/data:/opt/nextcloud:z docker.io/library/nextcloud:30.0.3 php --define apc.enable_cli=1 -f /var/www/html/cron.php
+ExecStartPost=podman run --rm --user 33 --pod nextcloud --name nextcloud-timer -v {{ nextcloud_data_dir }}/html:/var/www/html:z -v {{ nextcloud_data_dir }}/data:/opt/nextcloud:z docker.io/library/nextcloud:30.0.3 php --define apc.enable_cli=1 -f /var/www/html/occ preview:pre-generate
 
 [Install]
 WantedBy=default.target

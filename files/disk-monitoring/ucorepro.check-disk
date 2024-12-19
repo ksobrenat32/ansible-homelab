@@ -22,7 +22,7 @@ sleep 6h
 # Generate response
 
 RESPONSE="File server: results from disk checking"
-BTRFS="Btrfs data:\n$(/usr/bin/btrfs scrub status /mnt/disk)"
+BTRFS="Btrfs data:\n$(btrfs scrub status /mnt/disk)"
 
 # Send results
 curl -X POST \

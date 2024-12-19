@@ -4,11 +4,14 @@
   hosts: ucorepro
 
   vars:
-    nextcloud_data_dir: /mnt/disk/shared/containers/nextcloud
+    deemix_data_dir: /mnt/disk/shared/containers/deemix
     jellyfin_data_dir: /mnt/disk/shared/containers/jellyfin
     media_dir: /mnt/disk/shared/media
+    nextcloud_data_dir: /mnt/disk/shared/containers/nextcloud
     overleaf_data_dir: /mnt/disk/shared/containers/overleaf
+    pyload_data_dir: /mnt/disk/shared/containers/pyload
     scholarships_data_dir: /mnt/disk/shared/containers/scholarships-db
+    transmission_data_dir: /mnt/disk/shared/containers/transmission
 
   tasks:
     - name: Create the home containers directory
@@ -27,17 +30,21 @@
         group: core
         mode: "0644"
       with_items:
+        - "deemix.container"
+        - "jellyfin.container"
+        - "move_movies.container"
         - "nextcloud.pod"
         - "nextcloud-db.container"
         - "nextcloud-cache.container"
         - "nextcloud-app.container"
-        - "jellyfin.container"
         - "overleaf.pod"
         - "overleaf-db.container"
         - "overleaf-cache.container"
         - "overleaf-app.container"
+        - "pyload.container"
         - "stirling.container"
         - "scholarships.container"
+        - "transmission.container"
 
     - name: Create the systemd user directory
       ansible.builtin.file:

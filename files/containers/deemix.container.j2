@@ -1,0 +1,18 @@
+[Unit]
+Description=Deemix application container
+
+[Container]
+ContainerName=deemix
+Image=registry.gitlab.com/bockiii/deemix-docker:latest
+AutoUpdate=registry
+PublishPort=32004:6595
+Environment=PUID=3000
+Environment=PGID=3000
+Environment=TZ=America/Mexico_City
+Environment=DEEMIX_SINGLE_USER=true
+Environment=UMASK_SET=022
+Volume={{ deemix_data_dir }}/config:/config:z
+Volume={{ deemix_data_dir }}/downloads:/downloads:z
+
+[Install]
+WantedBy=default.target

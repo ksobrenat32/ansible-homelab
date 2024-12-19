@@ -1,6 +1,10 @@
 {
     "ansible.python.interpreterPath": "/bin/python",
     "cSpell.words": [
+        "deemix",
+        "Deemix",
+        "Peliculas",
+        "pyload",
         "ucorepro"
     ]
 }

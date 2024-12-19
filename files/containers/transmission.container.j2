@@ -1,0 +1,16 @@
+[Unit]
+Description=Transmission application container
+
+[Container]
+ContainerName=transmission
+Image=lscr.io/linuxserver/transmission:latest
+AutoUpdate=registry
+PublishPort=32003:9091
+Environment=PUID=4000
+Environment=PGID=4000
+Environment=TZ=America/Mexico_City
+Volume={{ transmission_data_dir }}/config:/config:z
+Volume={{ transmission_data_dir }}/downloads:/downloads:z
+
+[Install]
+WantedBy=default.target

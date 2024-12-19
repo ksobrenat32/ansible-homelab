@@ -1,0 +1,16 @@
+[Unit]
+Description=Pyload application container
+
+[Container]
+ContainerName=pyload
+Image=lscr.io/linuxserver/pyload-ng:latest
+AutoUpdate=registry
+PublishPort=32002:8000
+Environment=PUID=2000
+Environment=PGID=2000
+Environment=TZ=America/Mexico_City
+Volume={{ pyload_data_dir }}/config:/config:z
+Volume={{ pyload_data_dir }}/downloads:/downloads:z
+
+[Install]
+WantedBy=default.target

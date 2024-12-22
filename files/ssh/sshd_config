@@ -19,3 +19,5 @@ UsePAM yes
 
 X11Forwarding no
 PrintMotd no
+
+Subsystem sftp /usr/libexec/openssh/sftp-server

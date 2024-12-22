@@ -13,26 +13,50 @@
   become: true
 
   tasks:
-    - name: Setup debian essential configuration
-      ansible.builtin.import_tasks:
-        file: tasks/debian-essential.ansible.yml
+    - name: Configure hostname
+      ansible.builtin.hostname:
+        name: "{{ inventory_hostname }}"
+
+    - name: Configure timezone
+      community.general.timezone:
+        name: "{{ timezone }}"
+
+    - name: Copy sshd_config
+      ansible.builtin.copy:
+        src: files/ssh/sshd_config
+        dest: /etc/ssh/sshd_config
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Restart sshd
+      ansible.builtin.systemd:
+        name: sshd
+        state: restarted
 
     - name: Setup wireguard VPN
       ansible.builtin.import_tasks:
         file: tasks/wireguard.ansible.yml
+      vars:
+        wg_conf_name: vps
+        wg_conf_port: 55820
 
-    - name: Setup firewall with nat
-      ansible.builtin.import_tasks:
-        file: tasks/nftables.ansible.yml
+    - name: Setup podman auto-update
+      ansible.builtin.systemd:
+        name: podman-auto-update
 
-    - name: Setup web server
+    - name: Setup caddy quadlet
       ansible.builtin.import_tasks:
         file: tasks/caddy.ansible.yml
+      vars:
+        caddy_config_dir: /srv/containers/caddy
+        caddyfile_name: vps
 
-    - name: Setup uptime-kuma container
-      ansible.builtin.import_tasks:
-        file: tasks/podman-kuma.ansible.yml
-
-    - name: Setup restic backup
+    - name: Setup restic for containers
       ansible.builtin.import_tasks:
         file: tasks/restic.ansible.yml
+      vars:
+        restic_dir: /srv/containers/restic
+        restic_config: "{{ inventory_hostname }}"
+        restic_backup_path: "/host/srv/containers"
+        restic_exclude_path:

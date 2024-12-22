@@ -3,7 +3,7 @@
 # https://caddyserver.com/docs/caddyfile
 
 ks32.dev {
-    root * /var/www/ks32.dev
+    root * /data/ks32.dev
     encode gzip
     file_server browse
 }

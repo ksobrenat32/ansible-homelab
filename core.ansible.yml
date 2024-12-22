@@ -102,3 +102,11 @@
       vars:
         wg_conf_name: ucorepro
         wg_conf_port: 55820
+
+    - name: Enable linger for core user
+      ansible.builtin.file:
+        path: /var/lib/systemd/linger/core
+        state: touch
+        owner: root
+        group: root
+        mode: '0644'

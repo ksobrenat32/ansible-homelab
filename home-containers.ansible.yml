@@ -14,6 +14,13 @@
     transmission_data_dir: /mnt/disk/shared/containers/transmission
 
   tasks:
+    - name: Enable podman auto-update
+      ansible.builtin.systemd:
+        name: podman-auto-update
+        scope: user
+        enabled: true
+        state: started
+
     - name: Create the home containers directory
       ansible.builtin.file:
         path: /home/core/.config/containers/systemd/
@@ -62,5 +69,30 @@
         group: core
         mode: "0644"
       with_items:
+        - "nextcloud-timer.service"
+        - "nextcloud-timer.timer"
+
+    - name: Start systemd containers
+      ansible.builtin.systemd:
+        name: "{{ item }}"
+        scope: user
+        state: started
+        daemon_reload: true
+      with_items:
+        - "deemix.service"
+        - "jellyfin.service"
+        - "move_movies.service"
+        - "nextcloud-pod.service"
+        - "nextcloud-db.service"
+        - "nextcloud-cache.service"
+        - "nextcloud-app.service"
+        - "overleaf-pod.service"
+        - "overleaf-db.service"
+        - "overleaf-cache.service"
+        - "overleaf-app.service"
+        - "pyload.service"
+        - "stirling.service"
+        - "scholarships.service"
+        - "transmission.service"
         - "nextcloud-timer.service"
         - "nextcloud-timer.timer"

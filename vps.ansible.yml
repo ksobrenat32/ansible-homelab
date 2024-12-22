@@ -60,3 +60,11 @@
         restic_config: "{{ inventory_hostname }}"
         restic_backup_path: "/host/srv/containers"
         restic_exclude_path:
+
+    - name: Enable linger for core user
+      ansible.builtin.file:
+        path: /var/lib/systemd/linger/core
+        state: touch
+        owner: root
+        group: root
+        mode: '0644'

@@ -43,7 +43,9 @@
 
     - name: Setup podman auto-update
       ansible.builtin.systemd:
-        name: podman-auto-update
+        name: podman-auto-update.timer
+        enabled: true
+        state: started
 
     - name: Setup caddy quadlet
       ansible.builtin.import_tasks:

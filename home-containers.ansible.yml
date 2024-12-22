@@ -16,7 +16,7 @@
   tasks:
     - name: Enable podman auto-update
       ansible.builtin.systemd:
-        name: podman-auto-update
+        name: podman-auto-update.timer
         scope: user
         enabled: true
         state: started

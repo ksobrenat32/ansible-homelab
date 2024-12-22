@@ -1,0 +1,50 @@
+# Description: Ansible playbook to setup remote containers for vps
+---
+- name: Home Containers Setup for ucorepro
+  hosts: vps
+
+  vars:
+    uptime_data_dir: /srv/containers/uptime-kuma
+
+  tasks:
+    - name: Enable podman auto-update
+      ansible.builtin.systemd:
+        name: podman-auto-update
+        scope: user
+        enabled: true
+        state: started
+
+    - name: Create the home containers directory
+      ansible.builtin.file:
+        path: /home/core/.config/containers/systemd/
+        state: directory
+        owner: core
+        group: core
+        mode: "0755"
+
+    - name: Copy all the quadlet files
+      ansible.builtin.template:
+        src: "files/containers/{{ item }}.j2"
+        dest: "/home/core/.config/containers/systemd/{{ item }}"
+        owner: core
+        group: core
+        mode: "0644"
+      with_items:
+        - "uptime.container"
+
+    - name: Create the systemd user directory
+      ansible.builtin.file:
+        path: /home/core/.config/systemd/user/
+        state: directory
+        owner: core
+        group: core
+        mode: "0755"
+
+    - name: Start systemd containers
+      ansible.builtin.systemd:
+        name: "{{ item }}"
+        scope: user
+        state: started
+        daemon_reload: true
+      with_items:
+        - "uptime.service"

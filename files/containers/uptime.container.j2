@@ -1,0 +1,12 @@
+[Unit]
+Description=Uptime-kuma application container
+
+[Container]
+ContainerName=uptime-kuma
+Image=docker.io/louislam/uptime-kuma:1
+AutoUpdate=registry
+PublishPort=3001:3001
+Volume={{ uptime_data_dir }}:/app/data:z
+
+[Install]
+WantedBy=default.target

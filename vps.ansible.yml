@@ -1,14 +1,6 @@
 # VPS setup playbook
-# - Essential configuration
-# - Wireguard VPN
-# - Web server
-# - Uptime-kuma podman
-# - Restic backup
-# Required VM:
-# - 1 core, 1GB RAM, 32GB disk
-# - 1 network interface with public IP
 ---
-- name: Setup network VM
+- name: Setup for remote vps
   hosts: vps
   become: true
 

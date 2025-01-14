@@ -1,6 +1,6 @@
 # Description: Ansible playbook to setup remote containers for vps
 ---
-- name: Home Containers Setup for ucorepro
+- name: Containers setup for remote vps
   hosts: vps
 
   vars:

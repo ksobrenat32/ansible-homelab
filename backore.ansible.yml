@@ -1,0 +1,90 @@
+# Backup core os Ansible Playbook
+---
+- name: The Core OS basic configuration Ansible Playbook
+  hosts: backore
+  become: true
+
+  vars:
+    rest_server_port: "8000"
+    rest_server_data_dir: /mnt/data/restic-backup
+    rest_server_options: "--append-only --private-repos"
+
+  tasks:
+    - name: Configure hostname
+      ansible.builtin.hostname:
+        name: "{{ inventory_hostname }}"
+
+    - name: Configure timezone
+      community.general.timezone:
+        name: "{{ timezone }}"
+
+    - name: Copy sshd_config
+      ansible.builtin.copy:
+        src: files/ssh/sshd_config
+        dest: /etc/ssh/sshd_config
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Restart sshd
+      ansible.builtin.systemd:
+        name: sshd
+        state: restarted
+
+    - name: Setup disk monitoring script
+      ansible.builtin.import_tasks:
+        file: tasks/disk-monitoring.ansible.yml
+
+    - name: Setup podman auto-update
+      ansible.builtin.systemd:
+        name: podman-auto-update.timer
+        enabled: true
+        state: started
+
+    - name: Setup blocky quadlet
+      ansible.builtin.import_tasks:
+        file: tasks/blocky.ansible.yml
+      vars:
+        blocky_config_dir: /var/containers/blocky
+
+    - name: Setup restic for containers
+      ansible.builtin.import_tasks:
+        file: tasks/restic.ansible.yml
+      vars:
+        restic_dir: /var/containers
+        restic_config: "{{ inventory_hostname }}"
+        restic_backup_path: "/host/var/containers"
+        restic_exclude_path:
+
+    - name: Setup wireguard VPN
+      ansible.builtin.import_tasks:
+        file: tasks/wireguard.ansible.yml
+      vars:
+        wg_conf_name: backore
+        wg_conf_port: 55820
+
+    - name: Setup FreeDNS update
+      ansible.builtin.import_tasks:
+        file: tasks/freedns.ansible.yml
+
+    - name: Copy rest-server container quadlet
+      ansible.builtin.template:
+        src: files/containers/rest-server.container.j2
+        dest: /etc/containers/systemd/rest-server.container
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Allow rest-server port in firewall
+      ansible.posix.firewalld:
+        port: "{{ rest_server_port }}/tcp"
+        permanent: true
+        state: enabled
+        immediate: true
+
+    - name: Restart and enable rest-server container service
+      ansible.builtin.systemd:
+        name: rest-server
+        state: started
+        enabled: true
+        daemon_reload: true

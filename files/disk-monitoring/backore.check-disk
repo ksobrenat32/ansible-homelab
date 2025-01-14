@@ -13,34 +13,23 @@ curl -X POST \
     -d "{\"chat_id\": ${CHAT_ID}, \"text\": \"${RESPONSE}\"}" \
     https://api.telegram.org/bot${BOT_TOKEN}/sendMessage
 
-# Start 224 minutes long smart test on hdd
-smartctl -t long /dev/sda
-
 # Start btrfs scrub
-btrfs scrub start /mnt/data/
+btrfs scrub start /var/mnt/data/
 
 # Generate btrfs snapshot
-btrfs subvolume snapshot /mnt/data /mnt/snapshots/data-$(date -I)
+btrfs subvolume snapshot /var/mnt/data /var/mnt/snapshots/data-$(date -I)
 
 # Wait for them to finish
-sleep 8h
+sleep 6h
 
 # Generate response
 RESPONSE="File server: results from disk checking"
-SMART="Smart data:\n$(/usr/sbin/smartctl -a /dev/sda | grep -A1 "=== START OF READ SMART DATA SECTION ===")"
-SMART="${SMART}\n$(/usr/sbin/smartctl -a /dev/sda | grep -A17 "SMART Attributes Data Structure revision number:")"
-SMART="${SMART}\n$(/usr/sbin/smartctl -a /dev/sda | grep -A3 "SMART Self-test log structure")"
 BTRFS="Btrfs data:\n$(/usr/bin/btrfs scrub status /mnt/data)"
 
 # Send results
 curl -X POST \
     -H 'Content-Type: application/json' \
     -d "{\"chat_id\": ${CHAT_ID}, \"text\": \"${RESPONSE}\"}" \
-    https://api.telegram.org/bot${BOT_TOKEN}/sendMessage
-
-curl -X POST \
-    -H 'Content-Type: application/json' \
-    -d "{\"chat_id\": ${CHAT_ID}, \"text\": \"${SMART}\"}" \
     https://api.telegram.org/bot${BOT_TOKEN}/sendMessage
 
 curl -X POST \

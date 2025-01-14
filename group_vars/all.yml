@@ -1,17 +1,3 @@
 ---
 # The timezone of your server
 timezone: "America/Mexico_City"
-
-# Common packages to install
-packages:
-  - qemu-guest-agent
-  - curl
-  - wget
-  - git
-  - htop
-  - speedtest-cli
-  - screen
-  - nfs-common
-  - iperf3
-  - vim
-  - rsync

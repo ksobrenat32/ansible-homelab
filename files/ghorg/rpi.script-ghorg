@@ -1,9 +1,0 @@
-#!/bin/bash
-
-if [[ ! -d /mnt/data/ghorg ]] ; then
-    echo 'Directory /mnt/data/ghorg does not exist, exiting...'
-    exit
-fi
-
-/usr/local/bin/ghorg clone ksobrenat32 --config /mnt/data/ghorg/config/user.yaml
-/usr/local/bin/ghorg clone complejos-fi --config /mnt/data/ghorg/config/group.yaml

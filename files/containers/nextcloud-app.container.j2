@@ -3,7 +3,7 @@ Description=Nextcloud application container
 
 [Container]
 ContainerName=nextcloud-app
-Image=docker.io/library/nextcloud:30.0.3
+Image=docker.io/library/nextcloud:30.0
 Pod=nextcloud.pod
 AutoUpdate=registry
 Volume={{ nextcloud_data_dir }}/html:/var/www/html:z

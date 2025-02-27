@@ -1,0 +1,17 @@
+[Unit]
+Description=Calibre web application container
+
+[Container]
+ContainerName=calibre-web
+Image=lscr.io/linuxserver/calibre-web:latest
+AutoUpdate=registry
+Environment=PUID=5000
+Environment=PGID=5000
+Environment=TZ=America/Mexico_City
+Environment=DOCKER_MODS=linuxserver/mods:universal-calibre
+PublishPort=8083:8083
+Volume={{ calibre_data_dir }}/data:/config:z
+Volume={{ books_dir }}:/books:z
+
+[Install]
+WantedBy=default.target

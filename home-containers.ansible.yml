@@ -4,6 +4,8 @@
   hosts: ucorepro
 
   vars:
+    books_dir: /mnt/disk/shared/media/Books
+    calibre_data_dir: /mnt/disk/shared/containers/calibre
     deemix_data_dir: /mnt/disk/shared/containers/deemix
     jellyfin_data_dir: /mnt/disk/shared/containers/jellyfin
     media_dir: /mnt/disk/shared/media
@@ -37,6 +39,7 @@
         group: core
         mode: "0644"
       with_items:
+        - "calibre-web.container"
         - "deemix.container"
         - "jellyfin.container"
         - "move_movies.container"
@@ -79,6 +82,7 @@
         state: started
         daemon_reload: true
       with_items:
+        - "calibre-web.service"
         - "deemix.service"
         - "jellyfin.service"
         - "move_movies.service"

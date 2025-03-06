@@ -22,14 +22,6 @@ qcal.strangled.net {
 	reverse_proxy 127.0.0.1:8096
 }
 
-# Calibre-web
-http://books.ks32.dev {
-	reverse_proxy 127.0.0.1:8083
-}
-books.ks32.dev {
-	reverse_proxy 127.0.0.1:8083
-}
-
 # stirling-pdf
 pdf.ks32.dev {
 	reverse_proxy 127.0.0.1:32001
@@ -56,6 +48,14 @@ deemix.ks32.dev {
 # Overleaf
 overleaf.ks32.dev {
 	reverse_proxy 127.0.0.1:32005
+}
+
+# Calibre-web
+http://books.ks32.dev {
+	reverse_proxy 127.0.0.1:32006
+}
+books.ks32.dev {
+	reverse_proxy 127.0.0.1:32006
 }
 
 # Scholarships-db

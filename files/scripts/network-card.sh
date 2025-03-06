@@ -19,7 +19,7 @@ while true; do
   # If all targets are unreachable, reset the NIC
   if $is_down; then
     echo "$(date): NIC eno1 down. Attempting to reset."
-    ifdown eno1 && ifup eno1
+    nmcli device disconnect eno1 && nmcli device connect eno1
     ((failure_count++))
   else
     failure_count=0

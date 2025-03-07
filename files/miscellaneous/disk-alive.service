@@ -1,0 +1,14 @@
+[Unit]
+Description=Disk alive service
+After=default.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=5
+User=root
+ExecStart=/usr/local/bin/disk-alive.sh
+
+[Install]
+WantedBy=multi-user.target

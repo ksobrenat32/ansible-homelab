@@ -31,6 +31,29 @@
         name: sshd
         state: restarted
 
+    - name: Setup disk-alive script
+      ansible.builtin.copy:
+        src: files/scripts/disk-alive.sh
+        dest: /usr/local/bin/disk-alive.sh
+        mode: '0755'
+        owner: root
+        group: root
+
+    - name: Setup systemd service
+      ansible.builtin.copy:
+        src: files/miscellaneous/disk-alive.service
+        dest: /etc/systemd/system/disk-alive.service
+        mode: '0644'
+        owner: root
+        group: root
+
+    - name: Enable and start the service
+      ansible.builtin.systemd:
+        name: disk-alive
+        enabled: true
+        daemon_reload: true
+        state: restarted
+
     - name: Setup disk monitoring script
       ansible.builtin.import_tasks:
         file: tasks/disk-monitoring.ansible.yml

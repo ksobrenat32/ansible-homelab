@@ -35,6 +35,7 @@
         - "overleaf-db.container"
         - "overleaf-cache.container"
         - "overleaf-app.container"
+        - "redlib.container"
         - "uptime.container"
 
     - name: Create the systemd user directory
@@ -56,4 +57,5 @@
         - "overleaf-db.service"
         - "overleaf-cache.service"
         - "overleaf-app.service"
+        - "redlib.container"
         - "uptime.service"

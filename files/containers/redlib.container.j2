@@ -1,0 +1,12 @@
+[Unit]
+Description=Redlib application container
+
+[Container]
+ContainerName=redlib
+Image=quay.io/redlib/redlib:latest
+AutoUpdate=registry
+PublishPort=3003:8080
+
+[Install]
+WantedBy=default.target
+

@@ -1,0 +1,17 @@
+[Unit]
+Description=Invidious database container
+
+[Container]
+ContainerName=invidious-db
+Image=docker.io/library/postgres:14
+Pod=invidious.pod
+AutoUpdate=registry
+Notify=healthy
+HealthCmd=pg_isready -h localhost -p 5432 -U kemal -d invidious
+Environment=POSTGRES_DB=invidious
+Environment=POSTGRES_USER=kemal
+Environment=POSTGRES_PASSWORD=kemal
+Volume={{ invidious_data_dir }}/db:/var/lib/postgresql/data:Z
+
+[Install]
+WantedBy=default.target

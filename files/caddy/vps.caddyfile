@@ -16,3 +16,13 @@ up.ks32.dev {
 overleaf.ks32.dev {
 	reverse_proxy 127.0.0.1:3002
 }
+
+# Redlib
+red.ks32.dev {
+	reverse_proxy 127.0.0.1:3003
+}
+
+# Invidious
+vid.ks32.dev {
+	reverse_proxy 127.0.0.1:3004
+}

@@ -1,0 +1,15 @@
+[Unit]
+Description=Invidious app container
+After=invidious-db.service
+
+[Service]
+Restart=always
+
+[Container]
+ContainerName=invidious-app
+EnvironmentFile={{ invidious_data_dir }}/invidious.env
+Image=quay.io/invidious/invidious:master-arm64
+Pod=invidious.pod
+
+[Install]
+WantedBy=default.target

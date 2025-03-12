@@ -1,0 +1,12 @@
+[Unit]
+Description=Invidious helper container
+
+[Container]
+ContainerName=invidious-sig-helper
+Environment=RUST_LOG=info
+Image=quay.io/invidious/inv-sig-helper:latest
+Exec=--tcp 0.0.0.0:12999
+Pod=invidious.pod
+
+[Install]
+WantedBy=default.target

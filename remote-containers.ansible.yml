@@ -4,6 +4,7 @@
   hosts: vps
 
   vars:
+    invidious_data_dir: /srv/containers/invidious
     overleaf_data_dir: /srv/containers/overleaf
     uptime_data_dir: /srv/containers/uptime-kuma
 
@@ -31,6 +32,10 @@
         group: core
         mode: "0644"
       with_items:
+        - "invidious.pod"
+        - "invidious-db.container"
+        - "invidious-app.container"
+        - "invidious-helper.container"
         - "overleaf.pod"
         - "overleaf-db.container"
         - "overleaf-cache.container"
@@ -53,9 +58,7 @@
         state: started
         daemon_reload: true
       with_items:
+        - "invidious-pod.service"
         - "overleaf-pod.service"
-        - "overleaf-db.service"
-        - "overleaf-cache.service"
-        - "overleaf-app.service"
-        - "redlib.container"
+        - "redlib.service"
         - "uptime.service"

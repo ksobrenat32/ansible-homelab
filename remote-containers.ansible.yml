@@ -4,6 +4,7 @@
   hosts: vps
 
   vars:
+    overleaf_data_dir: /srv/containers/overleaf
     uptime_data_dir: /srv/containers/uptime-kuma
 
   tasks:
@@ -30,6 +31,10 @@
         group: core
         mode: "0644"
       with_items:
+        - "overleaf.pod"
+        - "overleaf-db.container"
+        - "overleaf-cache.container"
+        - "overleaf-app.container"
         - "uptime.container"
 
     - name: Create the systemd user directory
@@ -47,4 +52,8 @@
         state: started
         daemon_reload: true
       with_items:
+        - "overleaf-pod.service"
+        - "overleaf-db.service"
+        - "overleaf-cache.service"
+        - "overleaf-app.service"
         - "uptime.service"

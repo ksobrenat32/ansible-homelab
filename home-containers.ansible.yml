@@ -10,7 +10,6 @@
     jellyfin_data_dir: /mnt/disk/shared/containers/jellyfin
     media_dir: /mnt/disk/shared/media
     nextcloud_data_dir: /mnt/disk/shared/containers/nextcloud
-    overleaf_data_dir: /mnt/disk/shared/containers/overleaf
     pyload_data_dir: /mnt/disk/shared/containers/pyload
     scholarships_data_dir: /mnt/disk/shared/containers/scholarships-db
     transmission_data_dir: /mnt/disk/shared/containers/transmission
@@ -47,10 +46,6 @@
         - "nextcloud-db.container"
         - "nextcloud-cache.container"
         - "nextcloud-app.container"
-        - "overleaf.pod"
-        - "overleaf-db.container"
-        - "overleaf-cache.container"
-        - "overleaf-app.container"
         - "pyload.container"
         - "stirling.container"
         - "scholarships.container"
@@ -90,10 +85,6 @@
         - "nextcloud-db.service"
         - "nextcloud-cache.service"
         - "nextcloud-app.service"
-        - "overleaf-pod.service"
-        - "overleaf-db.service"
-        - "overleaf-cache.service"
-        - "overleaf-app.service"
         - "pyload.service"
         - "stirling.service"
         - "scholarships.service"

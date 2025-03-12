@@ -45,11 +45,6 @@ deemix.ks32.dev {
 	}
 }
 
-# Overleaf
-overleaf.ks32.dev {
-	reverse_proxy 127.0.0.1:32005
-}
-
 # Calibre-web
 http://books.ks32.dev {
 	reverse_proxy 127.0.0.1:32006

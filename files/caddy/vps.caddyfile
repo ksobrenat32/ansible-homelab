@@ -11,3 +11,8 @@ ks32.dev {
 up.ks32.dev {
 	reverse_proxy 127.0.0.1:3001
 }
+
+# Overleaf
+overleaf.ks32.dev {
+	reverse_proxy 127.0.0.1:3002
+}

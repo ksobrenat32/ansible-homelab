@@ -22,11 +22,6 @@ qcal.strangled.net {
 	reverse_proxy 127.0.0.1:8096
 }
 
-# stirling-pdf
-pdf.ks32.dev {
-	reverse_proxy 127.0.0.1:32001
-}
-
 # pyload
 pyload.ks32.dev {
 	reverse_proxy 127.0.0.1:32002
@@ -51,12 +46,4 @@ http://books.ks32.dev {
 }
 books.ks32.dev {
 	reverse_proxy 127.0.0.1:32006
-}
-
-# Scholarships-db
-becas.ks32.dev {
-	reverse_proxy 127.0.0.1:8000
-	basic_auth {
-		becas $2a$14$EQ4vjRHVFoQAkNW/nuQjMOXwwKsme4Yl0UGlQHne5.DKFTXjtByCi
-	}
 }

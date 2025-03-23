@@ -11,7 +11,6 @@
     media_dir: /mnt/disk/shared/media
     nextcloud_data_dir: /mnt/disk/shared/containers/nextcloud
     pyload_data_dir: /mnt/disk/shared/containers/pyload
-    scholarships_data_dir: /mnt/disk/shared/containers/scholarships-db
     transmission_data_dir: /mnt/disk/shared/containers/transmission
 
   tasks:
@@ -47,8 +46,6 @@
         - "nextcloud-cache.container"
         - "nextcloud-app.container"
         - "pyload.container"
-        - "stirling.container"
-        - "scholarships.container"
         - "transmission.container"
 
     - name: Create the systemd user directory
@@ -86,8 +83,6 @@
         - "nextcloud-cache.service"
         - "nextcloud-app.service"
         - "pyload.service"
-        - "stirling.service"
-        - "scholarships.service"
         - "transmission.service"
         - "nextcloud-timer.service"
         - "nextcloud-timer.timer"

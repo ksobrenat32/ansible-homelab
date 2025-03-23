@@ -6,6 +6,7 @@
   vars:
     invidious_data_dir: /srv/containers/invidious
     overleaf_data_dir: /srv/containers/overleaf
+    scholarships_data_dir: /srv/containers/scholarships-db
     uptime_data_dir: /srv/containers/uptime-kuma
 
   tasks:
@@ -41,6 +42,8 @@
         - "overleaf-cache.container"
         - "overleaf-app.container"
         - "redlib.container"
+        - "scholarships-db.container"
+        - "stirling.container"
         - "uptime.container"
 
     - name: Create the systemd user directory
@@ -61,4 +64,6 @@
         - "invidious-pod.service"
         - "overleaf-pod.service"
         - "redlib.service"
+        - "scholarships-db.service"
+        - "stirling.service"
         - "uptime.service"

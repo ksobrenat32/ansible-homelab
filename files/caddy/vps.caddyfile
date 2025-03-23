@@ -8,6 +8,13 @@ ks32.dev {
     file_server browse
 }
 
+# Scholarships-db
+becas.ks32.dev {
+	reverse_proxy 127.0.0.1:3000
+	basic_auth {
+		becas $2a$14$EQ4vjRHVFoQAkNW/nuQjMOXwwKsme4Yl0UGlQHne5.DKFTXjtByCi
+	}
+}
 up.ks32.dev {
 	reverse_proxy 127.0.0.1:3001
 }
@@ -25,4 +32,9 @@ red.ks32.dev {
 # Invidious
 vid.ks32.dev {
 	reverse_proxy 127.0.0.1:3004
+}
+
+# stirling-pdf
+pdf.ks32.dev {
+	reverse_proxy 127.0.0.1:3005
 }

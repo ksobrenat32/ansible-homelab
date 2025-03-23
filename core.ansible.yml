@@ -112,3 +112,10 @@
         owner: root
         group: root
         mode: '0644'
+
+    - name: Allow DLNA on firewalld
+      ansible.posix.firewalld:
+        port: 1900/udp
+        permanent: true
+        state: enabled
+        immediate: true

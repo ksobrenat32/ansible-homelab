@@ -9,6 +9,7 @@ Restart=always
 ContainerName=invidious-app
 EnvironmentFile={{ invidious_data_dir }}/invidious.env
 Image=quay.io/invidious/invidious:master-arm64
+AutoUpdate=registry
 Pod=invidious.pod
 
 [Install]

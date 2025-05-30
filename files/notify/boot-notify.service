@@ -1,7 +1,7 @@
 [Unit]
 Description=Server booting notification
-After=network-online.target
-Wants=network-online.target
+After=network-online.target NetworkManager-wait-online.service
+Wants=network-online.target NetworkManager-wait-online.service
 
 [Service]
 Type=oneshot

@@ -1,7 +1,37 @@
 #!/usr/bin/env bash
 
-sleep 15
-curl -X POST \
+# Resolve the hostname first.
+resolved=false
+for i in {1..10}; do
+    if ping -4 -c 1 api.telegram.org &> /dev/null; then
+        resolved=true
+        break
+    fi
+    echo "Waiting for DNS resolution, attempt $i..."
+    sleep 10
+done
+
+if [ "$resolved" = false ]; then
+    echo "Failed to resolve api.telegram.org after 10 attempts."
+    exit 1
+fi
+
+tmp_output=$(mktemp)
+http_code=$( curl -4 --silent --show-error --fail \
+    -w "%{http_code}" \
+    -o "${tmp_output}" \
+    -X POST \
     -H 'Content-Type: application/json' \
     -d "{\"chat_id\": ${CHAT_ID}, \"text\": \"SERVER {{ inventory_hostname }}\"}" \
-    https://api.telegram.org/bot${BOT_TOKEN}/sendMessage
+    https://api.telegram.org/bot${BOT_TOKEN}/sendMessage )
+
+curl_exit_code=$?
+
+if [ "${curl_exit_code}" -eq 0 ]; then
+    echo "Notification sent successfully."
+else
+    echo "Curl command failed with exit code: ${curl_exit_code}"
+    cat "${tmp_output}"
+    exit 2
+fi
+

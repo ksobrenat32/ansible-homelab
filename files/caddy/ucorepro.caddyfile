@@ -2,6 +2,37 @@
 #
 # https://caddyserver.com/docs/caddyfile
 
+(botForbidden) {
+    # Expanded list of known bad bots
+    @knownBadBots header_regexp User-Agent "(?i)AdsBot-Google|Amazonbot|anthropic-ai|Applebot|Applebot-Extended|AwarioRssBot|AwarioSmartBot|Bytespider|CCBot|ChatGPT|ChatGPT-User|Claude-Web|ClaudeBot|cohere-ai|DataForSeoBot|Diffbot|FacebookBot|Google-Extended|GPTBot|ImagesiftBot|magpie-crawler|omgili|Omgilibot|peer39_crawler|PerplexityBot|YouBot|AhrefsBot|SemrushBot|MJ12bot|DotBot|PetalBot|BLEXBot|YandexBot|MegaIndex|ZoominfoBot|Barkrowler|MauiBot|Linguee Bot|serpstatbot|SEOkicks"
+
+    # Match missing User-Agent header
+    @missingUserAgent not header User-Agent *
+
+    # Match empty User-Agent header (e.g., User-Agent: "")
+    @emptyUserAgent header_regexp User-Agent "^$"
+
+    # --- Handlers ---
+    # If any of these match, respond with 403.
+    # Caddy processes handlers in order. `close` stops further processing for the matched request.
+
+    handle @knownBadBots {
+        respond "Access Denied: Bot" 403 {
+            close
+        }
+    }
+    handle @missingUserAgent {
+        respond "Access Denied: Missing User-Agent" 403 {
+            close
+        }
+    }
+    handle @emptyUserAgent {
+        respond "Access Denied: Empty User-Agent" 403 {
+            close
+        }
+    }
+}
+
 # Nextcloud
 cloud.ks32.dev {
 	header {
@@ -12,24 +43,29 @@ cloud.ks32.dev {
 	rewrite /.well-known/caldav /remote.php/dav
 
 	reverse_proxy 127.0.0.1:32099
+    import botForbidden
 }
 
 # Jellyfin
 media.ks32.dev {
 	reverse_proxy 127.0.0.1:8096
+    import botForbidden
 }
 qcal.strangled.net {
 	reverse_proxy 127.0.0.1:8096
+    import botForbidden
 }
 
 # pyload
 pyload.ks32.dev {
 	reverse_proxy 127.0.0.1:32002
+    import botForbidden
 }
 
 # transmission
 transmission.ks32.dev {
 	reverse_proxy 127.0.0.1:32003
+    import botForbidden
 }
 
 # deemix
@@ -38,12 +74,15 @@ deemix.ks32.dev {
 	basic_auth {
 		deemix $2a$14$xD0KD8IDm2NHzebt3Y1nZ.wIireyrBsspWTwQE9VDuLVo2SXXFQn.
 	}
+    import botForbidden
 }
 
 # Calibre-web
 http://books.ks32.dev {
 	reverse_proxy 127.0.0.1:32006
+    import botForbidden
 }
 books.ks32.dev {
 	reverse_proxy 127.0.0.1:32006
+    import botForbidden
 }

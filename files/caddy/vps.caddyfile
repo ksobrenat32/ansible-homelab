@@ -41,11 +41,8 @@ ks32.dev {
 }
 
 # Scholarships-db
-becas.ks32.dev {
+sntsa37-secretaria-de-becas.org {
 	reverse_proxy 127.0.0.1:3000
-	basic_auth {
-		becas $2a$14$EQ4vjRHVFoQAkNW/nuQjMOXwwKsme4Yl0UGlQHne5.DKFTXjtByCi
-	}
 	import botForbidden
 }
 up.ks32.dev {

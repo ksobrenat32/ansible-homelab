@@ -1,16 +1,13 @@
 [Unit]
-Description=Scolarships application container
+Description=Scholarships database container
 
 [Container]
 ContainerName=scholarships-db
-Image=ghcr.io/ksobrenat32/scholarships-db:latest
+Image=docker.io/library/postgres:latest
+EnvironmentFile={{ scholarships_data_dir }}/config.env
 AutoUpdate=registry
-Environment=PROTOCOL="https"
-Environment=DOMAIN="becas.ks32.dev"
-Environment=PORT="443"
-PublishPort=3000:8000
+Pod=scholarships.pod
 Volume={{ scholarships_data_dir }}/db:/code/db:z
-Volume={{ scholarships_data_dir }}/media:/code/media:z
 
 [Install]
 WantedBy=default.target

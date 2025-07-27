@@ -5,9 +5,9 @@ DependsOn=scholarships-db.service
 [Container]
 ContainerName=scholarships-app
 Image=ghcr.io/ksobrenat32/scholarships-db:latest
+EnvironmentFile={{ scholarships_data_dir }}/config.env
 AutoUpdate=registry
 Pod=scholarships.pod
-Volume={{ scholarships_data_dir }}/config.yaml:/code/config.yaml:z,ro
 Volume={{ scholarships_data_dir }}/media:/code/media:z
 
 [Install]

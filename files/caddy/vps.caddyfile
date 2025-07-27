@@ -45,6 +45,11 @@ sntsa37-secretaria-de-becas.org {
 	reverse_proxy 127.0.0.1:3000
 	import botForbidden
 }
+demo.sntsa37-secretaria-de-becas.org {
+    reverse_proxy 127.0.0.1:8000
+}
+
+# Uptime-kuma
 up.ks32.dev {
 	reverse_proxy 127.0.0.1:3001
 	import botForbidden

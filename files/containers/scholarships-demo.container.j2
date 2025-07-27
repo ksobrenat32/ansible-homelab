@@ -1,0 +1,13 @@
+[Unit]
+Description=Scholarships application demo container
+
+[Container]
+ContainerName=scholarships-demo
+Image=ghcr.io/ksobrenat32/scholarships-db:latest
+Environment=DEMO=True
+Environment=URL=https://demo.sntsa37-secretaria-de-becas.org
+PublishPort=8000:8000
+AutoUpdate=registry
+
+[Install]
+WantedBy=default.target

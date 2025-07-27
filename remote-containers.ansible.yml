@@ -45,6 +45,7 @@
         - "scholarships.pod"
         - "scholarships-app.container"
         - "scholarships-db.container"
+        - "scholarships-demo.container"
         - "stirling.container"
         - "uptime.container"
 
@@ -67,5 +68,6 @@
         - "overleaf-pod.service"
         - "redlib.service"
         - "scholarships-pod.service"
+        - "scholarships-demo.service"
         - "stirling.service"
         - "uptime.service"

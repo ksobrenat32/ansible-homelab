@@ -10,6 +10,7 @@
     jellyfin_data_dir: /mnt/disk/shared/containers/jellyfin
     media_dir: /mnt/disk/shared/media
     nextcloud_data_dir: /mnt/disk/shared/containers/nextcloud
+    openwebui_data_dir: /mnt/disk/shared/containers/openwebui
     pyload_data_dir: /mnt/disk/shared/containers/pyload
     transmission_data_dir: /mnt/disk/shared/containers/transmission
 
@@ -45,6 +46,7 @@
         - "nextcloud-db.container"
         - "nextcloud-cache.container"
         - "nextcloud-app.container"
+        - "openwebui.container"
         - "pyload.container"
         - "transmission.container"
 
@@ -82,6 +84,7 @@
         - "nextcloud-db.service"
         - "nextcloud-cache.service"
         - "nextcloud-app.service"
+        - "openwebui.service"
         - "pyload.service"
         - "transmission.service"
         - "nextcloud-timer.service"

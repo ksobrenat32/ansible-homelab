@@ -1,0 +1,13 @@
+[Unit]
+Description=Openwebui application container bundled with ollama (cpu)
+
+[Container]
+ContainerName=openwebui
+Image=ghcr.io/open-webui/open-webui:ollama
+AutoUpdate=registry
+PublishPort=127.0.0.1:32001:8080
+Volume={{ openwebui_data_dir }}/ollama:/root/.ollama:z
+Volume={{ openwebui_data_dir }}/openwebui:/app/backend/data:z
+
+[Install]
+WantedBy=default.target

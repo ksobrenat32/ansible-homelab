@@ -8,7 +8,9 @@ Restart=always
 [Container]
 ContainerName=invidious-app
 EnvironmentFile={{ invidious_data_dir }}/invidious.env
-Image=quay.io/invidious/invidious:master-arm64
+Environment=INVIDIOUS_CONFIG_FILE=/invidious/config.yml
+Image=quay.io/invidious/invidious:latest-arm64
+Volume={{ invidious_data_dir }}/config.yml:/invidious/config.yml:Z
 AutoUpdate=registry
 Pod=invidious.pod
 

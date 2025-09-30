@@ -1,0 +1,13 @@
+[Unit]
+Description=Invidious companion container
+
+[Container]
+ContainerName=invidious-companion
+Image=quay.io/invidious/invidious-companion:latest
+AutoUpdate=registry
+Pod=invidious.pod
+EnvironmentFile={{ invidious_data_dir }}/invidious.env
+Volume={{ invidious_data_dir }}/companion_cache:/var/tmp/youtubei.js:Z
+
+[Install]
+WantedBy=default.target

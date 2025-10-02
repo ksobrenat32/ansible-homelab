@@ -3,7 +3,7 @@ Description=Overleaf database container
 
 [Container]
 ContainerName=mongo
-Image=docker.io/library/mongo:5.0
+Image=docker.io/library/mongo:7.0
 Pod=overleaf.pod
 AutoUpdate=registry
 Volume={{ overleaf_data_dir }}/mongo:/data/db:z

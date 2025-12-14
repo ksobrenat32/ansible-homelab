@@ -62,3 +62,9 @@
         owner: root
         group: root
         mode: '0644'
+    
+    - name: Enable minecraft port in firewall
+      ansible.builtin.firewalld:
+        service: minecraft
+        permanent: true
+        state: enabled

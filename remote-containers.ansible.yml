@@ -5,6 +5,7 @@
 
   vars:
     invidious_data_dir: /srv/containers/invidious
+    minecraft_data_dir: /srv/containers/minecraft
     overleaf_data_dir: /srv/containers/overleaf
     scholarships_data_dir: /srv/containers/scholarships-db
     uptime_data_dir: /srv/containers/uptime-kuma
@@ -37,6 +38,7 @@
         - "invidious-db.container"
         - "invidious-app.container"
         - "invidious-companion.container"
+        - "minecraft.container"
         - "overleaf.pod"
         - "overleaf-db.container"
         - "overleaf-cache.container"
@@ -65,6 +67,7 @@
         daemon_reload: true
       with_items:
         - "invidious-pod.service"
+        - "minecraft.service"
         - "overleaf-pod.service"
         - "redlib.service"
         - "scholarships-pod.service"

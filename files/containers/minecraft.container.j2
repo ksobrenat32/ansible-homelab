@@ -1,0 +1,24 @@
+[Unit]
+Description=Minecraft container
+
+[Container]
+ContainerName=minecraft
+Image=docker.io/itzg/minecraft-server:latest
+AutoUpdate=registry
+PublishPort=25565:25565
+
+Environment=EULA="TRUE"
+Environment=DIFFICULTY="hard"
+Environment=MODE="survival"
+Environment=TYPE="VANILLA"
+Environment=ONLINE_MODE="true"
+Environment=INIT_MEMORY="1G"
+Environment=MAX_MEMORY="3G"
+Environment=ENABLE_ROLLING_LOGS="true"
+Environment=USE_MEOWICE_FLAGS="true"
+
+Volume={{ minecraft_data_dir }}:/data:Z
+
+[Install]
+WantedBy=default.target
+

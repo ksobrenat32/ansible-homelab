@@ -5,7 +5,9 @@ Description=Move movies application container
 ContainerName=move_movies
 Image=ghcr.io/ksobrenat32/move-movies:latest
 AutoUpdate=registry
+AddDevice=/dev/dri
 Environment=CUID=0
+Environment=HWACCEL=vaapi
 Environment=TZ=America/Mexico_City
 Volume={{ pyload_data_dir }}/downloads/Peliculas:/origin:z
 Volume={{ media_dir }}/Movies/Downloads:/destiny:z

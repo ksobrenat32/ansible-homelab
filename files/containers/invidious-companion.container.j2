@@ -1,5 +1,7 @@
 [Unit]
 Description=Invidious companion container
+Restart=on-failure
+RestartSec=5
 
 [Container]
 ContainerName=invidious-companion
